@@ -19,6 +19,6 @@ letrasTokenizadas = FOREACH letras GENERATE FLATTEN(TOKENIZE(letra)) AS letraInd
 
 letrasAgrupadas = GROUP letrasTokenizadas BY letraIndividual;
 
-totalLetras = FOREACH letrasAgrupadas GENERATE (group, COUNT(letrasTokenizadas));
+totalLetras = FOREACH letrasAgrupadas GENERATE group, COUNT(letrasTokenizadas);
 
-STORE totalLetras INTO 'output';
+STORE totalLetras INTO 'output' USING PigStorage(',');;

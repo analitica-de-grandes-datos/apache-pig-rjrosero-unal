@@ -25,4 +25,4 @@ datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apel
 
 totalLetras = FOREACH datos GENERATE apellido, SIZE(apellido);
 
-STORE totalLetras INTO 'output';
+STORE totalLetras INTO 'output' USING PigStorage(',');

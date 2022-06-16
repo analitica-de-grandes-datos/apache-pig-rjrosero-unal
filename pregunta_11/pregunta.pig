@@ -36,4 +36,6 @@ datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apel
 
 totalLetras = FOREACH datos GENERATE apellido, UPPER(apellido), LOWER(apellido);
 
-STORE totalLetras INTO 'output' USING PigStorage(',');
+datosOrdenados = ORDER totalLetras BY apellido;
+
+STORE datosOrdenados INTO 'output' USING PigStorage(',');

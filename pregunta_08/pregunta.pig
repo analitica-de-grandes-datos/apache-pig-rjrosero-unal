@@ -23,7 +23,7 @@ paresAplanados = FOREACH datos GENERATE FLATTEN(letras) AS letrasAplanadas, FLAT
 
 paresTokenizados = FOREACH paresAplanados GENERATE letrasAplanadas, FLATTEN(TOKENIZE(paresSolos,',')) AS clavesSolas;
 
-paresFormados = FOREACH paresTokenizados GENERATE (letrasAplanadas, clavesSolas) parejas;
+paresFormados = FOREACH paresTokenizados GENERATE (letrasAplanadas, clavesSolas) AS parejas;
 
 paresAgrupados = GROUP paresFormados BY parejas;
 

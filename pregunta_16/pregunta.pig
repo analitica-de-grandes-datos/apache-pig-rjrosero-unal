@@ -26,4 +26,4 @@ parejas = FOREACH datos GENERATE nombre, color;
 
 parejasFiltradas = FILTER parejas BY (nombre matches '^K.*' OR color == 'blue');
 
-STORE parejasFiltradas INTO 'output';
+STORE parejasFiltradas INTO 'output' USING PigStorage(',');

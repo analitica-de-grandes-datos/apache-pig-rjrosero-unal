@@ -23,9 +23,9 @@ $ pig -x local -f pregunta.pig
 
 datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray);
 
-totalLetras = FOREACH datos GENERATE apellido, SIZE(apellido);
+totalLetras = FOREACH datos GENERATE apellido, SIZE(apellido) AS largoApellido;
 
-letrasOrdenados = ORDER totalLetras BY SIZE(apellido) DESC, apellido DESC;
+letrasOrdenados = ORDER totalLetras BY largoApellido DESC, apellido DESC;
 
 s = LIMIT letrasOrdenados 5;
 

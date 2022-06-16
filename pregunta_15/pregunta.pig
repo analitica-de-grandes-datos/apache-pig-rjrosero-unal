@@ -28,4 +28,4 @@ parejasSinNULL = FILTER parejas BY nombreLike is not null;
 
 parejasFiltradas = FILTER parejasSinNULL BY color == 'blue';
 
-STORE parejasFiltradas INTO 'output';
+STORE parejasFiltradas INTO 'output' USING PigStorage(' ');

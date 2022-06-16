@@ -20,3 +20,12 @@ $ pig -x local -f pregunta.pig
 
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:chararray, color:chararray);
+
+colores = FOREACH datos GENERATE FLATTEN(color) AS colorAplica;
+
+coloresMatch = FOREACH colores GENERATE REGEX_EXTRACT(colorAplica, '(^(?!b).*)',1) AS colorFinal;
+
+coloresSinNull = FILTER coloresMatch BY colorFinal is not null;
+
+STORE coloresSinNull INTO 'output';

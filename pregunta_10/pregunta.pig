@@ -25,4 +25,8 @@ datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apel
 
 totalLetras = FOREACH datos GENERATE apellido, SIZE(apellido);
 
-STORE totalLetras INTO 'output' USING PigStorage(',');
+letrasOrdenados = ORDER totalLetras BY SIZE(apellido) DESC, apellido DESC;
+
+s = LIMIT letrasOrdenados 5;
+
+STORE s INTO 'output' USING PigStorage(',');

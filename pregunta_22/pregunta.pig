@@ -24,7 +24,7 @@ $ pig -x local -f pregunta.pig
 
 datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:chararray, color:chararray);
 
-parejas = FOREACH datos GENERATE nombre, REGEX_EXTRACT(color, '(.*n)',1) AS colorLike;
+parejas = FOREACH datos GENERATE nombre, REGEX_EXTRACT_ALL(color, '(.*n)') AS colorLike;
 
 parejasSinNULL = FILTER parejas BY colorLike is not null;
 

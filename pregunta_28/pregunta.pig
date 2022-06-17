@@ -23,3 +23,10 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:datetime);
+
+fechaReg = FOREACH datos GENERATE ToString(fecha, 'YYYY') AS anioCuatro, ToString(fecha, 'YY') AS anioDos;
+
+fechaLim = LIMIT fechaReg 5;
+
+STORE fechaLim INTO 'output' USING PigStorage(',');

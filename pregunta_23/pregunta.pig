@@ -21,4 +21,10 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:chararray, color:chararray);
 
+parejas = FOREACH datos GENERATE nombre, REGEX_EXTRACT(color, '(.*[aeiou]$)',1) AS colorLike;
+
+parejasSinNULL = FILTER parejas BY colorLike is not null;
+
+STORE parejasSinNULL INTO 'output' USING PigStorage(',');

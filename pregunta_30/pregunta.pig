@@ -34,3 +34,8 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:datetime);
+
+fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), ToString(fecha, 'MMM') AS nombreMes, ToString(fecha, 'MM') AS mesDos, ToString(fecha, 'M') AS mes1, ToString(fecha, 'EEE') AS diaCorto, ToString(fecha, 'EEEE') AS diaLargo;
+
+STORE fechaReg INTO 'output' USING PigStorage(',');

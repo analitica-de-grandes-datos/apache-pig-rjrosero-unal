@@ -27,6 +27,6 @@ datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apel
 
 fechaReg = FOREACH datos GENERATE ToString(fecha, 'YYYY') AS anioCuatro, ToString(fecha, 'YY') AS anioDos;
 
-fechaLim = LIMIT fechaReg 5;
+/*fechaLim = LIMIT fechaReg 5;*/
 
 STORE fechaLim INTO 'output' USING PigStorage(',');

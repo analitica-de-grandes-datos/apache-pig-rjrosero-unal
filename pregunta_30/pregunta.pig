@@ -45,7 +45,7 @@ fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), ToString(fecha, 
                                         WHEN 'Fri' THEN 'vie'
                                         WHEN 'Sat' THEN 'sab'
                                         WHEN 'Sun' THEN 'dom'
-                                        ELSE 'error'
+                                        ELSE 'error' END
                                    ) AS diaCorto, 
                                    (CASE ToString(fecha, 'EEEE')
                                         WHEN 'Monday' THEN 'lunes'
@@ -55,7 +55,7 @@ fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), ToString(fecha, 
                                         WHEN 'Friday' THEN 'viernes'
                                         WHEN 'Saturday' THEN 'sabado'
                                         WHEN 'Sunday' THEN 'domingo'
-                                        ELSE 'error'
+                                        ELSE 'error' END
                                    ) AS diaLargo;
 
 STORE fechaReg INTO 'output' USING PigStorage(',');

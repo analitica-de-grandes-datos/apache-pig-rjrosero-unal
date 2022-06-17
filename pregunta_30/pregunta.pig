@@ -36,6 +36,26 @@ $ pig -x local -f pregunta.pig
 
 datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:datetime);
 
-fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), ToString(fecha, 'MMM') AS nombreMes, ToString(fecha, 'MM') AS mesDos, ToString(fecha, 'M') AS mes1, ToString(fecha, 'EEE') AS diaCorto, ToString(fecha, 'EEEE') AS diaLargo;
+fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), ToString(fecha, 'dd') AS diaConCero, ToString(fecha, 'd') AS diaSinCero, 
+                                  (CASE ToString(fecha, 'EEE')
+                                        WHEN 'Mon' THEN 'lun'
+                                        WHEN 'Tue' THEN 'mar'
+                                        WHEN 'Wed' THEN 'mie'
+                                        WHEN 'Thu' THEN 'jue'
+                                        WHEN 'Fri' THEN 'vie'
+                                        WHEN 'Sat' THEN 'sab'
+                                        WHEN 'Sun' THEN 'dom'
+                                        ELSE 'error'
+                                   ) AS diaCorto, 
+                                   (CASE ToString(fecha, 'EEEE')
+                                        WHEN 'Monday' THEN 'lunes'
+                                        WHEN 'Tuesday' THEN 'martes'
+                                        WHEN 'Wednesday' THEN 'miercoles'
+                                        WHEN 'Thursday' THEN 'jueves'
+                                        WHEN 'Friday' THEN 'viernes'
+                                        WHEN 'Saturday' THEN 'sabado'
+                                        WHEN 'Sunday' THEN 'domingo'
+                                        ELSE 'error'
+                                   ) AS diaLargo;
 
 STORE fechaReg INTO 'output' USING PigStorage(',');

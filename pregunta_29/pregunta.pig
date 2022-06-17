@@ -36,6 +36,21 @@ $ pig -x local -f pregunta.pig
 
 datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:datetime);
 
-fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), ToString(fecha, 'MMM') AS nombreMes, ToString(fecha, 'MM') AS mesDos, ToString(fecha, 'M') AS mes1;
+fechaReg = FOREACH datos GENERATE ToString(fecha,'yyyy-MM-dd'), 
+                                  (CASE ToString(fecha, 'MMM')
+                                        WHEN 'Jan' THEN 'ene'
+                                        WHEN 'Feb' THEN 'feb'
+                                        WHEN 'Mar' THEN 'mar'
+                                        WHEN 'Apr' THEN 'abr'
+                                        WHEN 'May' THEN 'may'
+                                        WHEN 'Jun' THEN 'jun'
+                                        WHEN 'Jul' THEN 'jul'
+                                        WHEN 'Aug' THEN 'ago'
+                                        WHEN 'Sep' THEN 'sep'
+                                        WHEN 'Oct' THEN 'oct'
+                                        WHEN 'Nov' THEN 'nov'
+                                        WHEN 'Dec' THEN 'dic'
+                                        ELSE 'error' END                                  
+                                  ) AS nombreMes, ToString(fecha, 'MM') AS mesDos, ToString(fecha, 'M') AS mes1;
 
 STORE fechaReg INTO 'output' USING PigStorage(',');

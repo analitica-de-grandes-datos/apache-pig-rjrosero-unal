@@ -29,4 +29,4 @@ fechaReg = FOREACH datos GENERATE ToString(fecha, 'YYYY') AS anioCuatro, ToStrin
 
 /*fechaLim = LIMIT fechaReg 5;*/
 
-STORE fechaLim INTO 'output' USING PigStorage(',');
+STORE fechaReg INTO 'output' USING PigStorage(',');

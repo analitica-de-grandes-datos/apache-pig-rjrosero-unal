@@ -21,3 +21,12 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray);
+
+totalLetras = FOREACH datos GENERATE apellido, SIZE(apellido) AS largoApellido;
+
+letrasOrdenados = ORDER totalLetras BY largoApellido DESC, apellido ASC;
+
+s = LIMIT letrasOrdenados 5;
+
+STORE s INTO 'output' USING PigStorage(',');

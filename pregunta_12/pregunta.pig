@@ -27,3 +27,12 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray);
+
+apellidos = FOREACH datos GENERATE FLATTEN(apellido) AS apellidoAplica;
+
+apellidosMatch = FOREACH apellidos GENERATE REGEX_EXTRACT(apellidoAplica, '(^[D-K].*)',1) AS apellidoFinal;
+
+apellidosMatchSinNull = FILTER apellidosMatch BY apellidoFinal is not null;
+
+STORE apellidosMatchSinNull INTO 'output';

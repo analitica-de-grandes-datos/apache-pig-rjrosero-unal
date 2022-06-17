@@ -12,3 +12,13 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+
+letras = LOAD 'data.tsv' AS (letra:chararray);
+
+letrasTokenizadas = FOREACH letras GENERATE FLATTEN(TOKENIZE(letra)) AS letraIndividual;
+
+letrasAgrupadas = GROUP letrasTokenizadas BY letraIndividual;
+
+totalLetras = FOREACH letrasAgrupadas GENERATE group, COUNT(letrasTokenizadas);
+
+STORE totalLetras INTO 'output' USING PigStorage(',');;

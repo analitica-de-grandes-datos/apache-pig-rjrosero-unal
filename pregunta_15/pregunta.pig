@@ -20,3 +20,12 @@ $ pig -x local -f pregunta.pig
 
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:chararray, color:chararray);
+
+parejas = FOREACH datos GENERATE REGEX_EXTRACT(nombre, '(^Z.*)',1) AS nombreLike, color;
+
+parejasSinNULL = FILTER parejas BY nombreLike is not null;
+
+parejasFiltradas = FILTER parejasSinNULL BY color == 'blue';
+
+STORE parejasFiltradas INTO 'output' USING PigStorage(' ');

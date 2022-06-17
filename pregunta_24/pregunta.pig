@@ -19,4 +19,10 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:chararray);
 
+fechaReg = FOREACH datos GENERATE REGEX_EXTRACT(fecha, '(([0-9][0-9][0-9][0-9])-([0-9][0-9])-([0-9][0-9]))',7) AS fechaLike;
+
+fechasSinNULL = FILTER fechaReg BY fechaLike is not null;
+
+STORE fechasSinNULL INTO 'output' USING PigStorage(',');

@@ -14,3 +14,12 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+datos = LOAD 'data.csv' USING PigStorage(',') AS (id:int, nombre:chararray, apellido:chararray, fecha:datetime);
+
+fechaReg = FOREACH datos GENERATE GetYear(fecha) AS anio;
+
+anioAgrupado = GROUP fechaReg BY anio;
+
+totalAnio = FOREACH anioAgrupado GENERATE group, COUNT(fechaReg) AS cantidad;
+
+STORE totalAnio INTO 'output' USING PigStorage(',');
